@@ -11,11 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-
-      - name: Convert line endings
-        run: |
-          find . -type f -name '*.sh' -exec dos2unix {} \;
-
+      
       - name: Set Java
         uses: actions/setup-java@v3
         with:
