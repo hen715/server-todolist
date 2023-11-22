@@ -39,6 +39,9 @@ public class MemberService {
     @Transactional
     public Long update(Long id, MemberUpdateDto memberUpdateDto){
         Member member = memberRepository.findById(id).orElseThrow(()->new MyNotFoundException(MyErrorCode.USER_NOT_FOUND));
+        if(memberRepository.existsByNickname(memberUpdateDto.getNickname())){
+            throw new MyDuplicateException(MyErrorCode.USER_DUPLICATE_NICKNAME);
+        }
         member.update(memberUpdateDto.getPassword(),memberUpdateDto.getNickname());
         return id;
     }
