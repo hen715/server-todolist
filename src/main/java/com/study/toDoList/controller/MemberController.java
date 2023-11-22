@@ -81,4 +81,14 @@ public class MemberController {
         log.info("회원의 모든 할일 호출 회원id:{}",id);
         return new ResponseEntity<>(taskService.getAllTask(id),HttpStatus.OK);
     }
+
+    @Operation(summary = "모든 회원 정보 가져오기")
+    @ApiResponses({
+            @ApiResponse(code = 200,message = "모든회원정보가져오기성공")
+    })
+    @GetMapping("")
+    public ResponseEntity<?> getAllMember(){
+        log.info("모든 회원 정보 호출");
+        return new ResponseEntity<>(memberService.getAllMember(),HttpStatus.OK);
+    }
 }
