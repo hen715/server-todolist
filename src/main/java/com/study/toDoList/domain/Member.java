@@ -39,4 +39,12 @@ public class Member {
         this.password = password;
         this.nickname = nickname;
     }
+
+    public void setIdForTest(Long id){
+        this.id = id;
+    }
+
+    public void setEmailForTest(String email){
+        this.email = email;
+    }
 }
