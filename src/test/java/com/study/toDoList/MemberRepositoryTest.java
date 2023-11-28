@@ -58,15 +58,13 @@ public class MemberRepositoryTest {
     void updateTest(){
         //given
         Member member = Member.builder().email("test@gmail.com").password("1234").nickname("test").build();
-        memberRepository.save(member);
-
-        Member savedMember = memberRepository.findById(1L).get();
+        Member savedMember = memberRepository.save(member);
 
 
         //when
         savedMember.setEmailForTest("test123@gmail.com");
         memberRepository.save(savedMember);
-        Member updateMember = memberRepository.findById(1L).get();
+        Member updateMember = memberRepository.findById(savedMember.getId()).get();
 
 
         //then
