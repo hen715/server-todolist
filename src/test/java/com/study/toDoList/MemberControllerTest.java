@@ -9,6 +9,7 @@ import com.study.toDoList.dto.MemberSaveDto;
 import com.study.toDoList.dto.MemberUpdateDto;
 import com.study.toDoList.dto.TaskListResponseDto;
 import com.study.toDoList.repositoy.MemberRepository;
+import com.study.toDoList.repositoy.TaskRepository;
 import com.study.toDoList.service.MemberService;
 import com.study.toDoList.service.TaskService;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -34,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MemberController.class)
+@MockBean(JpaMetamodelMappingContext.class)
 public class MemberControllerTest {
 
     @Autowired
@@ -47,6 +50,7 @@ public class MemberControllerTest {
 
     @MockBean
     MemberRepository memberRepository;
+
 
     @Test
     @DisplayName("멤버 가져오기 테스트")
