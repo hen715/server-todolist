@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 public class TaskListResponseDto {
     private Long id;
     private String title;
-    private boolean isFinished;
+    private Boolean isFinished;
     private Long memberId;
     private LocalDateTime modifiedDate;
 
     public TaskListResponseDto(Task task){
         this.id = task.getId();
         this.title = task.getTitle();
-        this.isFinished = task.isFinished();
+        this.isFinished = task.getIsFinished();
         this.memberId = task.getMember().getId();
         this.modifiedDate = task.getModifiedDate();
     }
