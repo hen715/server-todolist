@@ -13,7 +13,7 @@ public class TaskResponseDto {
     private String title;
     private String description;
     private LocalDate endDate;
-    private boolean isFinished;
+    private Boolean isFinished;
     private Long memberId;
 
     public TaskResponseDto(Task task){
@@ -21,7 +21,7 @@ public class TaskResponseDto {
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.endDate = task.getEndDate();
-        this.isFinished = task.isFinished();
+        this.isFinished = task.getIsFinished();
         this.memberId = task.getMember().getId();
     }
 }
