@@ -3,6 +3,7 @@ package com.study.toDoList;
 import com.study.toDoList.domain.Member;
 import com.study.toDoList.dto.MemberResponseDto;
 import com.study.toDoList.dto.MemberSaveDto;
+import com.study.toDoList.dto.MemberUpdateDto;
 import com.study.toDoList.repositoy.MemberRepository;
 import com.study.toDoList.service.MemberService;
 import org.assertj.core.api.Assertions;
@@ -57,6 +58,36 @@ public class MemberServiceTest {
         Long savedId = memberService.save(memberSaveDto);
 
         Assertions.assertThat(member.getId()).isEqualTo(savedId);
+        verify(memberRepository).save(any());
+    }
 
+    @Test
+    void updateTest(){
+        MemberUpdateDto memberUpdateDto = MemberUpdateDto.builder().nickname("test1").password("1111").build();
+        Member member = Member.builder().email("test@gmail.com").password("1234").nickname("test").build();
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
+
+        Long id = memberService.update(1L,memberUpdateDto);
+
+        MemberResponseDto updatedMember = memberService.getMember(id);
+        Assertions.assertThat(updatedMember.getNickname()).isEqualTo(memberUpdateDto.getNickname());
+        Assertions.assertThat(updatedMember.getPassword()).isEqualTo(memberUpdateDto.getPassword());
+    }
+
+    @Test
+    void deleteTest(){
+        Member member = Member.builder().email("test@gmail.com").password("1234").nickname("test").build();
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
+
+        memberService.delete(123L);
+
+        verify(memberRepository).delete(any());
+
+    }
+
+    @Test
+    void getAllMemberTest(){
+        memberService.getAllMember();
+        verify(memberRepository).findAll();
     }
 }

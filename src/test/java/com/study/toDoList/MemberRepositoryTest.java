@@ -55,6 +55,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("회원 업데이트 테스트")
     void updateTest(){
         //given
         Member member = Member.builder().email("test@gmail.com").password("1234").nickname("test").build();

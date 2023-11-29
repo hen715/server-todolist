@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,7 +74,6 @@ public class MemberControllerTest {
         given(memberService.save(MemberSaveDto.builder().email("test@email.com").password("1234").nickname("test").build())).willReturn(1L);
 
         MemberSaveDto memberSaveDto = MemberSaveDto.builder().email("test@email.com").password("1234").nickname("test").build();
-        String memberId = "1";
 
         Gson gson = new Gson();
         String content = gson.toJson(memberSaveDto);
@@ -85,7 +85,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.msg").exists())
                 .andDo(print());
 
-        //verify(memberService).save(MemberSaveDto.builder().email("test@email.com").password("1234").nickname("test").build());
+        verify(memberService).save(any());
     }
 
 
@@ -106,7 +106,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.msg").exists())
                 .andDo(print());
-        //verify(memberService).update(memberId,MemberUpdateDto.builder().password("123").nickname("test1").build());
+        verify(memberService).update(any(),any());
     }
     @Test
     @DisplayName("회원 삭제 테스트")
@@ -120,6 +120,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.msg").exists())
                 .andDo(print());
+        verify(memberService).delete(any());
     }
 
     @Test
