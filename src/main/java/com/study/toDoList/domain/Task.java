@@ -24,7 +24,7 @@ public class Task extends BaseTimeEntity{
     private LocalDate endDate;
 
     @Column
-    boolean isFinished = false;
+    private Boolean isFinished = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
