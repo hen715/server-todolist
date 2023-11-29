@@ -13,13 +13,16 @@ public class TaskListResponseDto {
     private String title;
     private Boolean isFinished;
     private Long memberId;
+    private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
+
 
     public TaskListResponseDto(Task task){
         this.id = task.getId();
         this.title = task.getTitle();
         this.isFinished = task.getIsFinished();
         this.memberId = task.getMember().getId();
+        this.createDate = task.getCreateDate();
         this.modifiedDate = task.getModifiedDate();
     }
 }
