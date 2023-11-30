@@ -45,4 +45,8 @@ public class Task extends BaseTimeEntity{
         this.isFinished = isFinished;
     }
 
+    public void changeIsFinished(){
+        this.isFinished = !this.isFinished;
+    }
+
 }

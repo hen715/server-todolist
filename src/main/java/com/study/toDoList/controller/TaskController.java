@@ -60,4 +60,14 @@ public class TaskController {
         return new ResponseEntity<>(new ResponseDto(id,"할일삭제성공"), HttpStatus.NO_CONTENT);
     }
 
+    @Operation(summary = "할일 완료여부 변경",description = "url 경로변수에 할일아이디를 보내주세요.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "할일 완료여부 변경 성공")
+    })
+    @GetMapping("/finish/{id}")
+    public ResponseEntity<?> changeFinished(@PathVariable Long id){
+        log.info("할일 완료여부 변경 호출 할일id:{}",id);
+        return new ResponseEntity<>(taskService.changeIsFinished(id),HttpStatus.OK);
+    }
+
 }

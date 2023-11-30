@@ -55,4 +55,11 @@ public class TaskService {
         return new TaskResponseDto(task);
     }
 
+    @Transactional
+    public TaskResponseDto changeIsFinished(Long id){
+        Task task =taskRepository.findById(id).orElseThrow(()-> new MyNotFoundException(MyErrorCode.TASK_NOT_FOUND));
+        task.changeIsFinished();
+        return new TaskResponseDto(task);
+    }
+
 }
