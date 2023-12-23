@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .antMatchers("/api/members/login","/swagger-ui.html/**","/swagger-ui/**","/v3/**","**exception**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/members").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/members").hasRole("ADMIN")
-                .anyRequest().hasRole("USER");
+                .anyRequest().hasAnyRole("USER","ADMIN");
         httpSecurity
                 .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
