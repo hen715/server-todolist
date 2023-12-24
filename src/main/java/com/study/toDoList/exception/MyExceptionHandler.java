@@ -3,6 +3,7 @@ package com.study.toDoList.exception;
 import com.study.toDoList.dto.ResponseDto;
 import com.study.toDoList.exception.ex.MyDuplicateException;
 import com.study.toDoList.exception.ex.MyNotFoundException;
+import com.study.toDoList.exception.ex.MyUnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,12 @@ public class MyExceptionHandler{
         String message = fieldError.getDefaultMessage();
         log.error("유효성 검사 예외 발생 msg:{}",message);
         return new ResponseEntity<>(new ResponseDto(-1,message),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MyUnauthorizedException.class)
+    public ResponseEntity<?> MyUnauthorizedException(MyUnauthorizedException ex){
+        log.error("로그인 실패 msg:{}",ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(new ResponseDto(-1,ex.getErrorCode().getMessage()),ex.getErrorCode().getStatus());
     }
 
 }

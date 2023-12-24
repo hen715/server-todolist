@@ -9,6 +9,7 @@ import com.study.toDoList.dto.MemberUpdateDto;
 import com.study.toDoList.exception.ex.MyDuplicateException;
 import com.study.toDoList.exception.ex.MyErrorCode;
 import com.study.toDoList.exception.ex.MyNotFoundException;
+import com.study.toDoList.exception.ex.MyUnauthorizedException;
 import com.study.toDoList.repositoy.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -79,10 +80,10 @@ public class MemberService {
 
     @Transactional
     public String login(String id, String password) throws RuntimeException{
-        Member member = memberRepository.findByEmail(id).orElseThrow(()-> new MyNotFoundException(MyErrorCode.USER_NOT_FOUND));
+        Member member = memberRepository.findByEmail(id).orElseThrow(()-> new MyUnauthorizedException(MyErrorCode.ID_NOT_FOUND));
 
         if(!passwordEncoder.matches(password,member.getPassword())){
-            throw new RuntimeException();// 비밀번호가 일치하지 않다는 예외 추가
+            throw new MyUnauthorizedException(MyErrorCode.PASSWORD_NOT_MATCHED);
         }
         String token = tokenProvider.createToken(String.valueOf(member.getId()),member.getRoles());
 
