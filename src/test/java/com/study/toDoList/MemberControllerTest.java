@@ -1,6 +1,7 @@
 package com.study.toDoList;
 
 import com.google.gson.Gson;
+import com.study.toDoList.config.TokenProvider;
 import com.study.toDoList.controller.MemberController;
 import com.study.toDoList.domain.Member;
 import com.study.toDoList.domain.Task;
@@ -56,16 +57,18 @@ public class MemberControllerTest {
     @MockBean
     MemberRepository memberRepository;
 
+    @MockBean
+    TokenProvider tokenProvider;
+
 
     @Test
     @DisplayName("멤버 가져오기 테스트")
     void getMemberTest() throws Exception{
         given(memberService.getMember(123L)).willReturn(new MemberResponseDto(Member.builder().email("test@gmail.com").password("1234").nickname("test").build()));
-
-        String memberId = "123";
+        given(tokenProvider.getUsername(any())).willReturn("123");
 
         mockMvc.perform(
-                get("/api/members/"+memberId))
+                get("/api/members").header("Authentication","my_json_token"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("test@gmail.com"))
                 .andExpect(jsonPath("$.password").value("1234"))
@@ -88,7 +91,7 @@ public class MemberControllerTest {
         String content = gson.toJson(memberSaveDto);
 
         mockMvc.perform(
-                post("/api/members/").content(content).contentType(MediaType.APPLICATION_JSON))
+                post("/api/members/").header("Authentication","my_json_token").content(content).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.msg").exists())
@@ -103,12 +106,13 @@ public class MemberControllerTest {
     void updateTest() throws Exception{
         MemberUpdateDto memberUpdateDto = MemberUpdateDto.builder().password("123").nickname("test1").build();
         given(memberService.update(123L, memberUpdateDto)).willReturn(123L);
-        Long memberId = 123L;
+        given(tokenProvider.getUsername(any())).willReturn("123");
+
 
         Gson gson = new Gson();
         String content = gson.toJson(memberUpdateDto);
         mockMvc.perform(
-                put("/api/members/"+memberId).contentType(MediaType.APPLICATION_JSON).content(content)
+                put("/api/members").header("Authentication","my_json_token").contentType(MediaType.APPLICATION_JSON).content(content)
 
         )
                 .andExpect(status().isOk())
@@ -120,10 +124,9 @@ public class MemberControllerTest {
     @Test
     @DisplayName("회원 삭제 테스트")
     void deleteTest() throws Exception{
-
-        Long memberId = 123L;
+        given(tokenProvider.getUsername(any())).willReturn("123");
         mockMvc.perform(
-                delete("/api/members/"+memberId)
+                delete("/api/members").header("Authentication","my_json_token")
         )
                 .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$.data").exists())
@@ -136,6 +139,7 @@ public class MemberControllerTest {
     @DisplayName("회원의 모든 할일 가져오기 테스트")
     void getAllTask() throws Exception{
         Member member = Member.builder().email("test@email.com").password("1234").nickname("test").build();
+        given(tokenProvider.getUsername(any())).willReturn("123");
         when(memberRepository.findById(123L)).thenReturn(Optional.of(member));
 
 
@@ -146,9 +150,8 @@ public class MemberControllerTest {
         when(taskService.getAllTask(123L)).thenReturn(taskListResponseDtos);
 
 
-        Long memberId = 123L;
         mockMvc.perform(
-                get("/api/members/tasks/"+memberId)
+                get("/api/members/tasks").header("Authentication","my_json_token")
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").exists())
