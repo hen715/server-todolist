@@ -3,6 +3,7 @@ package com.study.toDoList.exception;
 import com.study.toDoList.dto.ResponseDto;
 import com.study.toDoList.exception.ex.MyDuplicateException;
 import com.study.toDoList.exception.ex.MyNotFoundException;
+import com.study.toDoList.exception.ex.MyNotPermittedException;
 import com.study.toDoList.exception.ex.MyUnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,12 @@ public class MyExceptionHandler{
     @ExceptionHandler(MyUnauthorizedException.class)
     public ResponseEntity<?> MyUnauthorizedException(MyUnauthorizedException ex){
         log.error("로그인 실패 msg:{}",ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(new ResponseDto(-1,ex.getErrorCode().getMessage()),ex.getErrorCode().getStatus());
+    }
+
+    @ExceptionHandler(MyNotPermittedException.class)
+    public ResponseEntity<?> MyNotPermittedException(MyNotPermittedException ex){
+        log.error("다른 사람의 할일 접근 시도 msg:{}",ex.getErrorCode().getMessage());
         return new ResponseEntity<>(new ResponseDto(-1,ex.getErrorCode().getMessage()),ex.getErrorCode().getStatus());
     }
 
