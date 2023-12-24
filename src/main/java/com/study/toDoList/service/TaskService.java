@@ -33,7 +33,7 @@ public class TaskService {
     @Transactional
     public Long update(Long id, TaskUpdateDto taskUpdateDto){
         Task task =taskRepository.findById(id).orElseThrow(()-> new MyNotFoundException(MyErrorCode.TASK_NOT_FOUND));
-        task.update(taskUpdateDto.getTitle(),taskUpdateDto.getDescription(),taskUpdateDto.getEndDate(),taskUpdateDto.getIsFinished());
+        task.update(taskUpdateDto.getTitle(),taskUpdateDto.getDescription(),taskUpdateDto.getEndDate());
         return id;
     }
 

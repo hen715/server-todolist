@@ -18,13 +18,11 @@ public class TaskUpdateDto {
     private String description;
     @FutureOrPresent
     private LocalDate endDate;
-    @NotNull
-    private Boolean isFinished;
+
     @Builder
-    public TaskUpdateDto(String title, String description, LocalDate endDate, Boolean isFinished){
+    public TaskUpdateDto(String title, String description, LocalDate endDate){
         this.title =title;
         this.description = description;
         this.endDate = endDate;
-        this.isFinished = isFinished;
     }
 }

@@ -36,7 +36,7 @@ public class TaskController {
         return new ResponseEntity<>(new ResponseDto(taskId,"할일추가성공"), HttpStatus.CREATED);
     }
     @Parameter(name = "X-AUTH-TOKEN",description = "로그인 후 발급 받은 토큰",required = true,in = ParameterIn.HEADER)
-    @Operation(summary = "할일수정",description = "url 경로변수에 할일아이디,바디에 {title,description,endDate,isFinished(bool)}을 json 형식으로 보내주세요.")
+    @Operation(summary = "할일수정",description = "url 경로변수에 할일아이디,바디에 {title,description,endDate}을 json 형식으로 보내주세요.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "할일수정성공")
     })
