@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 public class TaskListResponseDto {
     private Long id;
     private String title;
+    private String description;
+    private LocalDate endDate;
     private Boolean isFinished;
     private Long memberId;
     private LocalDateTime createDate;
@@ -20,6 +22,8 @@ public class TaskListResponseDto {
     public TaskListResponseDto(Task task){
         this.id = task.getId();
         this.title = task.getTitle();
+        this.description = task.getDescription();
+        this.endDate = task.getEndDate();
         this.isFinished = task.getIsFinished();
         this.memberId = task.getMember().getId();
         this.createDate = task.getCreateDate();
